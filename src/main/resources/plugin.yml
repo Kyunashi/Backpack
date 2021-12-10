@@ -1,0 +1,6 @@
+name: Backpack
+author: kyew
+main: main.Main
+version: 0.1
+description: Adds 2 custom recipes for custom Backpacks that generate additional inventory space
+api-version: 1.13
