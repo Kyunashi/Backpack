@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -44,27 +45,60 @@ public class BackpackListener implements Listener {
 
 	@EventHandler
 	public void openBackpackViaInventoryClick(InventoryClickEvent event) {
-		if(event == null) {
+
+		if (event == null) {
+
 			return;
+
 		}
+
 		if (event.isRightClick()) {
 
 			ItemStack currentItem = event.getCurrentItem();
 			Player player = (Player) event.getWhoClicked();
 
-			if (currentItem.getItemMeta().equals(ItemManager.largeBackpack.getItemMeta())) {
+			if (currentItem == null) {
 
-				Backpack backpack = Main.getInstance().getBpManager().getLargeBackpack(player.getUniqueId());
-				event.setCancelled(true);
-				player.openInventory(backpack.getInventory());
+				return;
 
-			} else if (currentItem.getItemMeta().equals(ItemManager.smallBackpack.getItemMeta())) {
+			} else {
 
-				Backpack backpack = Main.getInstance().getBpManager().getSmallBackpack(player.getUniqueId());
-				event.setCancelled(true);
-				player.openInventory(backpack.getInventory());
+				if (currentItem.getItemMeta().equals(ItemManager.largeBackpack.getItemMeta())) {
+
+					Backpack backpack = Main.getInstance().getBpManager().getLargeBackpack(player.getUniqueId());
+					event.setCancelled(true);
+					player.setItemOnCursor(null);
+					player.openInventory(backpack.getInventory());
+
+				} else if (currentItem.getItemMeta().equals(ItemManager.smallBackpack.getItemMeta())) {
+
+					Backpack backpack = Main.getInstance().getBpManager().getSmallBackpack(player.getUniqueId());
+					event.setCancelled(true);
+					player.setItemOnCursor(null);
+					player.openInventory(backpack.getInventory());
+
+				}
 
 			}
+
+		}
+
+	}
+
+
+	@EventHandler
+	public void denyBackpackPlacement(BlockPlaceEvent event) {
+
+		if (event == null) {
+
+			return;
+
+		}
+
+		if (event.getItemInHand().getItemMeta().equals(ItemManager.largeBackpack.getItemMeta())
+				|| event.getItemInHand().getItemMeta().equals(ItemManager.smallBackpack.getItemMeta())) {
+
+			event.setCancelled(true);
 
 		}
 

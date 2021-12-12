@@ -1,6 +1,6 @@
 name: Backpack
 author: kyew
 main: main.Main
-version: 0.1
+version: ${project.version}
 description: Adds 2 custom recipes for custom Backpacks that generate additional inventory space
-api-version: 1.13
+api-version: 1.18
